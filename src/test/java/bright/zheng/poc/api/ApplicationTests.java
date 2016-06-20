@@ -1,18 +1,18 @@
 package bright.zheng.poc.api;
 
+import static io.restassured.RestAssured.expect;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import io.restassured.RestAssured;
-
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
 
 /**
  * Application level testing
@@ -22,12 +22,16 @@ import static org.hamcrest.Matchers.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ApiApplication.class)
-@WebIntegrationTest({"server.port=5555"})
+@WebIntegrationTest({"server.port=0"})
 public class ApplicationTests {
 	
-	@BeforeClass
-    public static void setupURL() {
-        RestAssured.baseURI = "http://localhost:5555";
+	@Value("${local.server.port}")
+    private int port;
+	
+	@Before
+    public void setupURL() {
+        RestAssured.baseURI = "http://localhost";
+        RestAssured.port = port;
         RestAssured.basePath = "/";
     }
   
