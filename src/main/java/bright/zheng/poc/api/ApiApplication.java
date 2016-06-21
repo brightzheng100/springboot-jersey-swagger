@@ -7,7 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 
 /**
- * This is typical boostrap class for Spring Boot based application
+ * This is a typical boostrap class for Spring Boot based application
  *  
  * @author bright.zheng
  *
