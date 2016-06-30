@@ -38,4 +38,4 @@ http://localhost:8000/
 Note: we can play around the APIs within the UI.
 
 # Blog
-[From Code To Online Services: My experiments of DevOps - Development of RESTful Web Services by Spring Boot, Jersey, Swagger](http://bright-zheng.blogspot.sg/2016/06/from-code-to-online-services-my_61.html)
+[From Code To Online Services: My experiments of DevOps - Development of RESTful Web Services by Spring Boot, Jersey, Swagger](http://bright-zheng.blogspot.com/2016/06/Development-of-RESTful-WebServices-by-SpringBoot-Jersey-Swagger.html)
