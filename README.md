@@ -1,4 +1,5 @@
 # springboot-jersey-swagger
+https://travis-ci.org/itstarting/springboot-jersey-swagger.svg?branch=master
 
 This is a proof-of-concept project to build RESTful web services by integrating below components:
  - [Spring Boot](http://projects.spring.io/spring-boot/) - The foundation of our web app
