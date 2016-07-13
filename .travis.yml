@@ -4,8 +4,6 @@ language: java
 ## Do the tests
 script: mvn clean test
 
-## Just to test through the major JDK versions
+## We have specified the JDK as v8 in Maven pom.xml
 jdk:
   - oraclejdk8
-  - oraclejdk7
-  - openjdk6
