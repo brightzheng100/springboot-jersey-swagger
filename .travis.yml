@@ -1,0 +1,11 @@
+## We develop the project by Java
+language: java
+
+## Do the tests
+script: mvn clean test
+
+## Just to test through the major JDK versions
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  - openjdk6
