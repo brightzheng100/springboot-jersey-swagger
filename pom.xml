@@ -66,17 +66,17 @@
 		</dependency>
 	</dependencies>
 	
-	<resources>
-		<resource>
-			<directory>${project.basedir}</directory>
-			<filtering>true</filtering>
-			<includes>
-				<include>**/Dockerfile</include>
-			</includes>
-		</resource>
-	</resources>
-
 	<build>
+		<resources>
+			<resource>
+				<directory>${project.basedir}</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/Dockerfile</include>
+				</includes>
+			</resource>
+		</resources>
+		
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
