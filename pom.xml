@@ -107,6 +107,8 @@
 				</executions>
 				<configuration>
 					<baseImage>frolvlad/alpine-oraclejdk8:slim</baseImage>
+					<imageName>${docker.registry}devops/${project.artifactId}</imageName>
+					<pushImage>true</pushImage>
 					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
 					<resources>
 					   <resource>
@@ -118,7 +120,7 @@
 					<!--
 					<dockerDirectory>docker</dockerDirectory>
 					<imageName>${docker.registry}devops/${project.artifactId}</imageName>
-					<pushImage>${push.image}</pushImage>					
+					<pushImage>${push.image}</pushImage>
 					<resources>
 					   <resource>
 						 <targetPath>/</targetPath>
