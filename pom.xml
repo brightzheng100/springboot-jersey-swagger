@@ -29,7 +29,7 @@
 		<rest-assured>3.0.0</rest-assured>
 		
 		<!-- Docker related properties -->
-		<docker.registry>192.168.56.118:5000/</docker.registry>
+		<docker.registry>192.168.56.118:5000</docker.registry>
 		
 	</properties>
 
@@ -107,9 +107,10 @@
 				</executions>
 				<configuration>
 					<baseImage>frolvlad/alpine-oraclejdk8:slim</baseImage>
-					<imageName>${docker.registry}devops/${project.artifactId}</imageName>
+					<imageName>${docker.registry}/devops/${project.artifactId}</imageName>
 					<pushImage>true</pushImage>
 					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+					
 					<resources>
 					   <resource>
 						 <targetPath>/</targetPath>
@@ -117,6 +118,12 @@
 						 <include>${project.build.finalName}.jar</include>
 					   </resource>
 					</resources>
+					
+					<forceTags>true</forceTags>
+					<imageTags>
+					   <imageTag>${project.version}</imageTag>
+					   <imageTag>latest</imageTag>
+					</imageTags>
 					<!--
 					<dockerDirectory>docker</dockerDirectory>
 					<imageName>${docker.registry}devops/${project.artifactId}</imageName>
