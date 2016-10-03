@@ -30,6 +30,7 @@
 		
 		<!-- Docker related properties -->
 		<docker.registry>192.168.56.118:5000</docker.registry>
+		<docker.host>http://192.168.56.118:4243</docker.host>
 		
 	</properties>
 
@@ -66,17 +67,7 @@
 		</dependency>
 	</dependencies>
 	
-	<build>
-		<resources>
-			<resource>
-				<directory>${project.basedir}</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>**/Dockerfile</include>
-				</includes>
-			</resource>
-		</resources>
-		
+	<build>		
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -106,7 +97,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<dockerHost>http://192.168.56.118:4243</dockerHost>
+					<dockerHost>${docker.host}</dockerHost>
 					
 					<baseImage>frolvlad/alpine-oraclejdk8:slim</baseImage>
 					<imageName>${docker.registry}/devops/${project.artifactId}</imageName>
@@ -127,7 +118,8 @@
 					   <imageTag>latest</imageTag>
 					   -->
 					</imageTags>
-					<!--
+					
+					<!-- by using a dedicated Dockerfile? do this way then
 					<dockerDirectory>docker</dockerDirectory>
 					<imageName>${docker.registry}devops/${project.artifactId}</imageName>
 					<pushImage>${push.image}</pushImage>
