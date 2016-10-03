@@ -107,6 +107,7 @@
 				</executions>
 				<configuration>
 					<serverId>docker-registry</serverId>
+					<dockerHost>http://192.168.56.118:2376</dockerHost>
 					
 					<baseImage>frolvlad/alpine-oraclejdk8:slim</baseImage>
 					<imageName>${docker.registry}/devops/${project.artifactId}</imageName>
