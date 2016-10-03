@@ -106,7 +106,6 @@
 					</execution>
 				</executions>
 				<configuration>
-					<serverId>docker-registry</serverId>
 					<dockerHost>http://192.168.56.118:4243</dockerHost>
 					
 					<baseImage>frolvlad/alpine-oraclejdk8:slim</baseImage>
@@ -125,7 +124,9 @@
 					<forceTags>true</forceTags>
 					<imageTags>
 					   <imageTag>${project.version}</imageTag>
+					   <!--
 					   <imageTag>latest</imageTag>
+					   -->
 					</imageTags>
 					<!--
 					<dockerDirectory>docker</dockerDirectory>
