@@ -106,6 +106,16 @@
 					</execution>
 				</executions>
 				<configuration>
+					<baseImage>frolvlad/alpine-oraclejdk8:slim</baseImage>
+					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+					<resources>
+					   <resource>
+						 <targetPath>/</targetPath>
+						 <directory>${project.build.directory}</directory>
+						 <include>${project.build.finalName}.jar</include>
+					   </resource>
+					</resources>
+					<!--
 					<dockerDirectory>docker</dockerDirectory>
 					<imageName>${docker.registry}devops/${project.artifactId}</imageName>
 					<pushImage>${push.image}</pushImage>					
@@ -116,6 +126,7 @@
 						 <include>${project.build.finalName}.jar</include>
 					   </resource>
 					</resources>
+					-->
 				</configuration>
 			</plugin>
 		</plugins>
