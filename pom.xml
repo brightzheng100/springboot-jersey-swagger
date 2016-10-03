@@ -106,6 +106,8 @@
 					</execution>
 				</executions>
 				<configuration>
+					<serverId>docker-registry</serverId>
+					
 					<baseImage>frolvlad/alpine-oraclejdk8:slim</baseImage>
 					<imageName>${docker.registry}/devops/${project.artifactId}</imageName>
 					<pushImage>true</pushImage>
