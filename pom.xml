@@ -110,7 +110,6 @@
 					
 					<baseImage>frolvlad/alpine-oraclejdk8:slim</baseImage>
 					<imageName>${docker.registry}/devops/${project.artifactId}</imageName>
-					<pushImage>true</pushImage>
 					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
 					
 					<resources>
