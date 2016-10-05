@@ -97,7 +97,9 @@
 					</execution>
 				</executions>
 				<configuration>
+					<!--
 					<dockerHost>${docker.host}</dockerHost>
+					-->
 					
 					<baseImage>frolvlad/alpine-oraclejdk8:slim</baseImage>
 					<imageName>${docker.registry}/devops/${project.artifactId}</imageName>
