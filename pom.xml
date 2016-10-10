@@ -90,16 +90,15 @@
 				<version>0.4.13</version>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>build</goal>
 						</goals>
 					</execution>
 				</executions>
 				<configuration>
-					<!--
+					<!-- Note: we should consider honor DOCKER_HOST env variable -->
 					<dockerHost>${docker.host}</dockerHost>
-					-->
 					
 					<baseImage>frolvlad/alpine-oraclejdk8:slim</baseImage>
 					<imageName>${docker.registry}/devops/${project.artifactId}</imageName>
@@ -116,9 +115,7 @@
 					<forceTags>true</forceTags>
 					<imageTags>
 					   <imageTag>${project.version}</imageTag>
-					   <!--
 					   <imageTag>latest</imageTag>
-					   -->
 					</imageTags>
 					
 					<!-- by using a dedicated Dockerfile? do this way then
