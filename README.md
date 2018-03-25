@@ -44,16 +44,18 @@ Check out the code and execute below commands:
 
 ```
 $ mvn package
-$ java -jar target/springboot-jersey-swagger-1.0.0-SNAPSHOT.jar
+$ java -Dspring.profiles.active=dev -jar target/springboot-jersey-swagger-1.0.0-SNAPSHOT.jar
 ```
+
+> Note: activate `dev` profile while running locally.
 
 # Play With the Web Services
 
 ```
-> curl -X GET http://localhost:8000/api/v1/hello/Bright
+> curl -X GET http://localhost:8080/api/v1/hello/Bright
 {"msg":"Hello Bright - application/json"}
 
->curl -X GET http://localhost:8000/api/v1/hello/404
+>curl -X GET http://localhost:8080/api/v1/hello/404
 {"timestamp":1466473854650,"status":404,"error":"Not Found","message":"Not Found","path":"/api/v1/hello/404"}
 ```
 
@@ -62,12 +64,18 @@ $ java -jar target/springboot-jersey-swagger-1.0.0-SNAPSHOT.jar
 Open a browser and key in URL:
 
 ```
-$ open http://localhost:8000/swagger/index.html
+$ open http://localhost:8080/swagger/index.html
 ```
 
 ![swagger-ui](swagger-ui.png "Swagger UI")
 
 Note: we can play around the APIs within the UI.
+
+# Cloud Ready?
+
+It's totally ready to deploy it to cloud, like [Pivotal Web Services](https://run.pivotal.io).
+Try it out by using `cf push -f manifest-qa.yml`.
+Don't forget to bind MySQL Service and Redis Service to it to make it fully function.
 
 # Blog
 
