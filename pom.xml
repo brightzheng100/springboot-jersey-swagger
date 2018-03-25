@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.3.5.RELEASE</version>
+		<version>1.5.10.RELEASE</version>
 		<relativePath />
 	</parent>
 
@@ -22,19 +22,40 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		
+
 		<!-- project related properties -->
 		<start-class>bright.zheng.poc.api.ApiApplication</start-class>
-		<swagger-jersey2-jaxrs>1.5.3</swagger-jersey2-jaxrs>
-		<rest-assured>3.0.0</rest-assured>
-		
+		<swagger-jersey2-jaxrs>1.5.18</swagger-jersey2-jaxrs>
+		<rest-assured>3.0.7</rest-assured>
+
 		<!-- Docker related properties -->
 		<docker.registry>192.168.56.118:5000</docker.registry>
 		<docker.host>http://192.168.56.118:4243</docker.host>
-		
+
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -45,12 +66,48 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+		
+		<!-- Session with Redis -->
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+		</dependency>
+
+		<!-- Spring Cloud Connector -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-spring-service-connector</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-cloudfoundry-connector</artifactId>
+		</dependency>
+
+		<!-- Swagger -->
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-jersey2-jaxrs</artifactId>
 			<version>${swagger-jersey2-jaxrs}</version>
+		</dependency>
+		
+		<!-- Flyway -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+
+		<!-- H2 DB -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- testing related dependencies -->
@@ -66,23 +123,22 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
-	<build>		
+
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.19.1</version>
 				<configuration>
 					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
-			
+
 			<!-- Docker image building plugin -->
 			<plugin>
 				<groupId>com.spotify</groupId>
@@ -99,37 +155,29 @@
 				<configuration>
 					<!-- Note: we should consider honor DOCKER_HOST env variable -->
 					<dockerHost>${docker.host}</dockerHost>
-					
+
 					<baseImage>frolvlad/alpine-oraclejdk8:slim</baseImage>
 					<imageName>${docker.registry}/devops/${project.artifactId}</imageName>
 					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
-					
+
 					<resources>
-					   <resource>
-						 <targetPath>/</targetPath>
-						 <directory>${project.build.directory}</directory>
-						 <include>${project.build.finalName}.jar</include>
-					   </resource>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
 					</resources>
-					
+
 					<forceTags>true</forceTags>
 					<imageTags>
-					   <imageTag>${project.version}</imageTag>
-					   <imageTag>latest</imageTag>
+						<imageTag>${project.version}</imageTag>
+						<imageTag>latest</imageTag>
 					</imageTags>
-					
-					<!-- by using a dedicated Dockerfile? do this way then
-					<dockerDirectory>docker</dockerDirectory>
-					<imageName>${docker.registry}devops/${project.artifactId}</imageName>
-					<pushImage>${push.image}</pushImage>
-					<resources>
-					   <resource>
-						 <targetPath>/</targetPath>
-						 <directory>${project.build.directory}</directory>
-						 <include>${project.build.finalName}.jar</include>
-					   </resource>
-					</resources>
-					-->
+
+					<!-- by using a dedicated Dockerfile? do this way then <dockerDirectory>docker</dockerDirectory> 
+						<imageName>${docker.registry}devops/${project.artifactId}</imageName> <pushImage>${push.image}</pushImage> 
+						<resources> <resource> <targetPath>/</targetPath> <directory>${project.build.directory}</directory> 
+						<include>${project.build.finalName}.jar</include> </resource> </resources> -->
 				</configuration>
 			</plugin>
 		</plugins>

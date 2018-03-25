@@ -1,0 +1,45 @@
+# Spring configuration
+spring:
+  profiles:
+    active: dev                           # env profile
+    include:                              # including profiles
+    - h2
+    - redis
+  h2.console.enabled: true                # enabling H2 Console: /h2-console
+  datasource:
+    platform: h2                          # database platform
+    url: jdbc:h2:mem:testdb
+  redis:
+    host: localhost
+    port: 6379
+  session:
+    store-type: redis                    # redis, jdbc, none etc.
+    
+# Server
+server:
+  session:
+    timeout: 5                           # seconds
+
+# Flyway
+flyway:
+  schemas:
+  - PUBLIC
+
+# Logging
+logging:
+  level:
+    root: ERROR
+    org.springframework: INFO
+    bright.zheng: INFO
+  pattern:
+    console: "==> [%p] %c{1}(%L) - %m%n"
+
+# Actuator Configuration
+endpoints:
+  enabled: true
+  info:
+    enabled: true
+  health:
+    enabled: true
+  metrics:
+    enabled: true

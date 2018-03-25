@@ -1,0 +1,9 @@
+---
+applications:
+- name: springboot-jersey-swagger
+  memory: 1g
+  instances: 1
+  host: springboot-jersey-swagger
+  path: ./target/springboot-jersey-swagger-1.0.0-SNAPSHOT.jar
+  env:
+    SPRING_PROFILES_ACTIVE: dev

@@ -7,7 +7,10 @@ import org.glassfish.jersey.server.wadl.internal.WadlResource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import bright.zheng.poc.api.resources.HelloResource;
+import bright.zheng.poc.api.service.CacheService;
+import bright.zheng.poc.api.service.HelloService;
+import bright.zheng.poc.api.service.SessionService;
+import bright.zheng.poc.api.service.StudentService;
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
@@ -43,7 +46,11 @@ public class JerseyConfig extends ResourceConfig {
 	}
 
 	private void registerEndpoints() {
-		this.register(HelloResource.class);
+		this.register(HelloService.class);
+		this.register(StudentService.class);
+		this.register(SessionService.class);
+		this.register(CacheService.class);
+		
 		this.register(WadlResource.class);
 	}
 
@@ -57,7 +64,7 @@ public class JerseyConfig extends ResourceConfig {
 		config.setContact("Bright Zheng");
 		config.setSchemes(new String[] { "http", "https" });
 		config.setBasePath(this.apiPath);
-		config.setResourcePackage("bright.zheng.poc.api.resources");
+		config.setResourcePackage("bright.zheng.poc.api.service");
 		config.setPrettyPrint(true);
 		config.setScan(true);
 	}

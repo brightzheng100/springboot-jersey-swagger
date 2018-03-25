@@ -1,6 +1,6 @@
 package bright.zheng.poc.api;
 
-import static io.restassured.RestAssured.expect;
+import static io.restassured.RestAssured.get;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -8,9 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import io.restassured.RestAssured;
 
@@ -20,9 +20,9 @@ import io.restassured.RestAssured;
  * @author bright.zheng
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = ApiApplication.class)
-@WebIntegrationTest({"server.port=0"})
+@RunWith(SpringRunner.class)
+@ActiveProfiles("dev")
+@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class ApplicationTests {
 	
 	@Value("${local.server.port}")
@@ -43,11 +43,9 @@ public class ApplicationTests {
      */
     @Test
     public void springroot_info() throws Exception {
-    	expect().
-	    	body("app.name", equalTo("springboot-jersey-swagger")).
-	    	body("build.version", equalTo("1.0.0-SNAPSHOT")).
-	    when().
-	    	get("/info");
+    		get("/info").then().assertThat()
+    			.body("app.name", equalTo("springboot-jersey-swagger"))
+    			.body("build.version", equalTo("1.0.0-SNAPSHOT"));
     }
     
     /**
@@ -56,11 +54,26 @@ public class ApplicationTests {
      * @throws Exception
      */
     @Test
-    public void hello_get() {
-    	expect().
-    		body("msg", containsString("Hello Bright")).
-        when().
-        	get("/api/v1/hello/Bright");
+    public void testSayHello() {
+		get("/api/v1/hello/Bright").then().assertThat()
+			.body("msg", containsString("Hello Bright"));
+    }
+    
+    /**
+     * {
+		"id": 10001,
+		"name": "Ranga",
+		"passportNumber": "E1234567"
+		}
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testFindStudentById() {
+		get("/api/v1/student/10001").then().assertThat()
+		.body("id", equalTo(10001))
+		.body("name", equalTo("Ranga"))
+		.body("passportNumber", equalTo("E1234567"));
     }
 
 }
