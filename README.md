@@ -56,7 +56,14 @@ $ java -Dspring.profiles.active=dev -jar target/springboot-jersey-swagger-1.0.0-
 
 # Play With the Web Services by CLI
 
-1. Cache APIs
+## Hello World APIs
+
+```
+$ curl -X GET http://localhost:8080/api/v1/hello/Bright
+{"msg":"Hello Bright - application/json"}
+```
+
+## Cache APIs: showcase how to build APIs around distributed cache
 
 ```
 $ curl -X POST "http://localhost:8080/api/v1/cache" -H "Content-Type: application/json" -d "{ \"id\": 123, \"name\": \"Bright\", \"passportNumber\": \"G123456\"}"
@@ -68,14 +75,7 @@ $ curl -X GET "http://localhost:8080/api/v1/cache/"
 {"id":123,"name":"Bright","passportNumber":"G123456"}
 ```
 
-2. Hello World APIs
-
-```
-$ curl -X GET http://localhost:8080/api/v1/hello/Bright
-{"msg":"Hello Bright - application/json"}
-```
-
-3. Session APIs
+## Session APIs: showcase how to build session-based conversaton on top of distributed cache
 
 This one is easy to play with Swagger UI as session id is reused automatically in browser.
 For cli, we need to prepare the cookie file before playing with the APIs.
@@ -87,6 +87,16 @@ $ curl --cookie ~/temp/cookies.txt -X GET "http://localhost:8080/api/v1/sessions
 
 $ curl --cookie ~/temp/cookies.txt -X GET "http://localhost:8080/api/v1/sessions"
 {"user1":"ABC"}
+```
+
+## Student APIs: showcase JDBC-backed APIs
+
+```
+$ curl -X GET "http://springboot-jersey-swagger.cfapps.io/api/v1/students/" -H "accept: application/json"
+[{"id":10001,"name":"Ranga","passportNumber":"E1234567"},{"id":10002,"name":"Ravi","passportNumber":"A1234568"},{"id":10003,"name":"Bright","passportNumber":"C1234568"}]
+
+$ curl -X GET "http://springboot-jersey-swagger.cfapps.io/api/v1/students/10003"
+{"id":10003,"name":"Bright","passportNumber":"C1234568"}
 ```
 
 
