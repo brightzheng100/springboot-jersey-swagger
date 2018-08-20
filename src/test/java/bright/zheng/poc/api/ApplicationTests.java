@@ -70,7 +70,7 @@ public class ApplicationTests {
      */
     @Test
     public void testFindStudentById() {
-		get("/api/v1/student/10001").then().assertThat()
+		get("/api/v1/students/10001").then().assertThat()
 		.body("id", equalTo(10001))
 		.body("name", equalTo("Ranga"))
 		.body("passportNumber", equalTo("E1234567"));
