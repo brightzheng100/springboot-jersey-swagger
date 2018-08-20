@@ -22,9 +22,11 @@ For testing, we use below components:
  - Spring Boot Test Framework (spring-boot-starter-test) with Junit, Hamcrest
  - [Rest Assured](https://github.com/rest-assured/rest-assured)
 
+
 # Takeaways
  - How To Integrate Spring Boot, Jersey, Swagger, Spring Session, Spring Cloud Connector, and Flyway to build real world JSON-based RESTful web services
  - Unit Test practices for RESTful API testing
+
 
 # Before You Start It Up
 
@@ -37,7 +39,9 @@ $ cd redis-4.0.8
 $ make
 $ src/redis-server
 ```
- 
+> Note: to clean up previsouly cached data, try `src/redis-cli -h localhost -p 6379 flushall`
+
+
 # Start It UP
 
 Check out the code and execute below commands:
@@ -49,15 +53,42 @@ $ java -Dspring.profiles.active=dev -jar target/springboot-jersey-swagger-1.0.0-
 
 > Note: activate `dev` profile while running locally.
 
-# Play With the Web Services
+
+# Play With the Web Services by CLI
+
+1. Cache APIs
 
 ```
-> curl -X GET http://localhost:8080/api/v1/hello/Bright
+$ curl -X POST "http://localhost:8080/api/v1/cache" -H "Content-Type: application/json" -d "{ \"id\": 123, \"name\": \"Bright\", \"passportNumber\": \"G123456\"}"
+
+$ curl -X GET "http://localhost:8080/api/v1/cache/123"
+{"id":123,"name":"Bright","passportNumber":"G123456"}
+
+$ curl -X GET "http://localhost:8080/api/v1/cache/"
+{"id":123,"name":"Bright","passportNumber":"G123456"}
+```
+
+2. Hello World APIs
+
+```
+$ curl -X GET http://localhost:8080/api/v1/hello/Bright
 {"msg":"Hello Bright - application/json"}
-
->curl -X GET http://localhost:8080/api/v1/hello/404
-{"timestamp":1466473854650,"status":404,"error":"Not Found","message":"Not Found","path":"/api/v1/hello/404"}
 ```
+
+3. Session APIs
+
+This one is easy to play with Swagger UI as session id is reused automatically in browser.
+For cli, we need to prepare the cookie file before playing with the APIs.
+```
+$ curl --cookie ~/temp/cookies.txt -X PUT "http://localhost:8080/api/v1/sessions/user1?value=ABC" -H "accept: application/json"
+
+$ curl --cookie ~/temp/cookies.txt -X GET "http://localhost:8080/api/v1/sessions/user1"
+{"user1":"ABC"}
+
+$ curl --cookie ~/temp/cookies.txt -X GET "http://localhost:8080/api/v1/sessions"
+{"user1":"ABC"}
+```
+
 
 # Check Out the Swagger UI
 
@@ -69,13 +100,29 @@ $ open http://localhost:8080/swagger/index.html
 
 ![swagger-ui](swagger-ui.png "Swagger UI")
 
-Note: we can play around the APIs within the UI.
+> Note: we can play with the APIs within the UI.
+
 
 # Cloud Ready?
 
-It's totally ready to deploy it to cloud, like [Pivotal Web Services](https://run.pivotal.io).
-Try it out by using `cf push -f manifest-qa.yml`.
-Don't forget to bind MySQL Service and Redis Service to it to make it fully function.
+Yes, it's totally ready to deploy it to cloud.
+For example, deploying to [Pivotal Web Services](https://run.pivotal.io) is just some commands away:
+```
+$ cf create-service rediscloud 30mb redis-for-springboot-jersey-swagger
+$ cf push -f manifest-qa.yml --no-start
+$ cf bind-service springboot-jersey-swagger redis-for-springboot-jersey-swagger
+$ cf restage springboot-jersey-swagger
+$ cf apps
+...
+name                        requested state   instances   memory   disk   urls
+springboot-jersey-swagger   started           1/1         1G       1G     springboot-jersey-swagger.cfapps.io
+# open https://springboot-jersey-swagger.cfapps.io/swagger/index.html
+```
+
+> Note:
+> - The `30mb` plan of `rediscloud` is **free**
+> - You can update `manifest-qa.yml` with services so manual `cf bind-service` and `cf restage` are not required -- the service binding will be automatically handled
+
 
 # Blog
 
