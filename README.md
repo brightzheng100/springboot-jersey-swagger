@@ -110,7 +110,9 @@ $ open http://localhost:8080/swagger/index.html
 
 ![swagger-ui](swagger-ui.png "Swagger UI")
 
-> Note: we can play with the APIs within the UI.
+> Note: 
+> - All the APIs can be playing through the UI
+> - Do switch the Schemes to "https" if you're using https protocol like in [Pivotal Web Services](https://run.pivotal.io)
 
 
 # Cloud Ready?
