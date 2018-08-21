@@ -115,13 +115,18 @@ $ open http://localhost:8080/swagger/index.html
 
 # Cloud Ready?
 
-Yes, it's totally ready to deploy it to cloud.
+Yes, it's totally ready to be deployed to cloud.
 For example, deploying to [Pivotal Web Services](https://run.pivotal.io) is just some commands away:
 ```
 $ cf create-service rediscloud 30mb redis-for-springboot-jersey-swagger
-$ cf push -f manifest-qa.yml --no-start
-$ cf bind-service springboot-jersey-swagger redis-for-springboot-jersey-swagger
-$ cf restage springboot-jersey-swagger
+$ cf create-service cleardb spark mysql-for-springboot-jersey-swagger
+$ cf services
+...
+name                                  service      plan    bound apps                  last operation
+mysql-for-springboot-jersey-swagger   cleardb      spark   springboot-jersey-swagger   create succeeded
+redis-for-springboot-jersey-swagger   rediscloud   30mb    springboot-jersey-swagger   create succeeded
+
+$ cf push -f manifest-qa-with-services.yml
 $ cf apps
 ...
 name                        requested state   instances   memory   disk   urls
@@ -130,8 +135,8 @@ springboot-jersey-swagger   started           1/1         1G       1G     spring
 ```
 
 > Note:
-> - The `30mb` plan of `rediscloud` is **free**
-> - You can update `manifest-qa.yml` with services so manual `cf bind-service` and `cf restage` are not required -- the service binding will be automatically handled
+> - For Redis, the `30mb` plan of `rediscloud` is **free**
+> - For MySQL, the `spark` plan of `cleardb` is **free**
 
 
 # Blog
