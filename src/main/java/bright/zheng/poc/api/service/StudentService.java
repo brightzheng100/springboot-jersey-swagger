@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -42,6 +43,23 @@ public class StudentService {
 		if (student == null) return Response.status(Status.NOT_FOUND).build();
 			
 		return Response.status(Status.OK).entity(student).build();
+	}
+
+	@POST						//JAX-RS Annotation
+	@Path("/")					//JAX-RS Annotation
+	@ApiOperation(				//Swagger Annotation
+			value = "create one student", 
+			response = Student.class)  
+	@ApiResponses(value = {		//Swagger Annotation
+		@ApiResponse(code = 200, message = "Success")
+	})
+	public Response insertStudent(
+			@ApiParam Student student) {
+		
+		LOGGER.info("POST v1/students/: {} - {}", student.getId(), student.getName());
+		this.repository.save(student);
+		
+		return Response.status(Status.OK).build();
 	}
 
 	@GET						//JAX-RS Annotation

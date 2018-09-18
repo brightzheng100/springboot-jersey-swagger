@@ -30,6 +30,13 @@ public class StudentJdbcRepository {
 		
 		return student;
 	}
+	
+	public void save(Student student) {
+		jdbcTemplate.update("insert into student (id, name, passport_number) values (?,?,?)",
+			student.getId(),
+			student.getName(),
+			student.getPassportNumber());
+	}
 
 	public List<Student> findAll() {
 		List<Student> students = null;

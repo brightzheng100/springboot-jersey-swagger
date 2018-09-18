@@ -6,3 +6,5 @@ CREATE TABLE PERSON (
 );
 
 insert into PERSON (id, first_name, last_name) values (1, 'Bright', 'Zheng');
+
+# alter table student add column remarks varchar(200) null;
