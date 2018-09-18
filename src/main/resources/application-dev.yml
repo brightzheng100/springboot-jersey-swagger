@@ -13,17 +13,16 @@ spring:
     host: localhost
     port: 6379
   session:
-    store-type: redis                    # redis, jdbc, none etc.
+    store-type: redis                     # redis, jdbc, none etc.
+  flyway:                                 # flyway
+    schemas:
+    - PUBLIC
     
 # Server
 server:
-  session:
-    timeout: 5                           # seconds
-
-# Flyway
-flyway:
-  schemas:
-  - PUBLIC
+  servlet:
+    session:
+      timeout: 5                          # seconds
 
 # Logging
 logging:
@@ -35,11 +34,13 @@ logging:
     console: "==> [%p] %c{1}(%L) - %m%n"
 
 # Actuator Configuration
-endpoints:
-  enabled: true
-  info:
-    enabled: true
-  health:
-    enabled: true
-  metrics:
-    enabled: true
+management:
+  endpoints:
+    enabled-by-default: false
+  endpoint:
+    info:
+      enabled: true
+    health:
+      enabled: true
+    metrics:
+      enabled: true

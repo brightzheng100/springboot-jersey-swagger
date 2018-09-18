@@ -30,7 +30,7 @@ For testing, we use below components:
 
 # Before You Start It Up
 
-There is a dependency on Redis, as the cache by default, and I don't build to make it an embedded service, so before you start it up, do this:
+There is a dependency on Redis, as the cache by default, and I don't want to make it an embedded service, so before you start it up, do this:
 
 ```
 $ curl -OL http://download.redis.io/releases/redis-4.0.8.tar.gz
@@ -39,6 +39,7 @@ $ cd redis-4.0.8
 $ make
 $ src/redis-server
 ```
+
 > Note: to clean up previsouly cached data, try `src/redis-cli -h localhost -p 6379 flushall`
 
 
@@ -70,15 +71,24 @@ $ curl -X POST "http://localhost:8080/api/v1/cache" -H "Content-Type: applicatio
 
 $ curl -X GET "http://localhost:8080/api/v1/cache/123"
 {"id":123,"name":"Bright","passportNumber":"G123456"}
-
-$ curl -X GET "http://localhost:8080/api/v1/cache/"
-{"id":123,"name":"Bright","passportNumber":"G123456"}
 ```
 
-## Session APIs: showcase how to build session-based conversaton on top of distributed cache
+To view Redis cache:
+
+```
+$ src/redis-cli -h localhost -p 6379
+$ localhost:6379> keys *
+1) "bright.zheng.poc.api.model.Student:123"
+2) "bright.zheng.poc.api.model.Student"
+3) "bright.zheng.poc.api.model.Student:123:phantom"
+...
+```
+
+## Session APIs: showcase how to build session-based conversations on top of distributed cache
 
 This one is easy to play with Swagger UI as session id is reused automatically in browser.
-For cli, we need to prepare the cookie file before playing with the APIs.
+For cli, we need to prepare the cookie file (refer to [cookies.txt](https://chrome.google.com/webstore/detail/cookiestxt/njabckikapfpffapmjgojcnbfjonfjfg) in Chrome) before playing with the APIs.
+
 ```
 $ curl --cookie ~/temp/cookies.txt -X PUT "http://localhost:8080/api/v1/sessions/user1?value=ABC" -H "accept: application/json"
 

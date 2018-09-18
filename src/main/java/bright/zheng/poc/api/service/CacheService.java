@@ -1,6 +1,6 @@
 package bright.zheng.poc.api.service;
 
-import java.util.Collection;
+import java.util.Optional;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -37,7 +37,7 @@ public class CacheService {
 	@Autowired
 	private CacheRepository cacheRepository;
 
-	@GET						//JAX-RS Annotation
+	@GET							//JAX-RS Annotation
 	@Path("/{id}")				//JAX-RS Annotation
 	@ApiOperation(				//Swagger Annotation
 			value = "Get one specific cache by id", 
@@ -46,19 +46,16 @@ public class CacheService {
 		@ApiResponse(code = 200, message = "Success"),
 		@ApiResponse(code = 404, message = "Not found")
 	})
-	public Response getCacheById(@ApiParam @PathParam("id") String id) {
+	public Response getCacheByName(@ApiParam @PathParam("id") String id) {
 		
 		LOGGER.info("GET v1/cache/{} ...", id);
 		
-		Student student = cacheRepository.findOne(id);
-		if (student == null) {
+		Optional<Student> student = cacheRepository.findById(id);
+		if (!student.isPresent()) {
 			LOGGER.info("no student is found in cache");
-			
 			return Response.status(Status.NOT_FOUND).entity("NOT FOUND").build();
-			
 		} else {
-			
-			LOGGER.info("GET cached student: {} - {}", student.getId(), student.getName());
+			LOGGER.info("GET cached student: {} - {}", student.get().getId(), student.get().getName());
 			return Response.status(Status.OK).entity(student).build();
 		}
 	}
@@ -71,30 +68,13 @@ public class CacheService {
 	@ApiResponses(value = {		//Swagger Annotation
 		@ApiResponse(code = 200, message = "Success")
 	})
-	public Response putSession(@ApiParam Student student) {
+	public Response putSession(
+			@ApiParam Student student) {
 		
 		LOGGER.info("POST v1/cache: {} - {}", student.getId(), student.getName());
 		cacheRepository.save(student);
 		
 		return Response.status(Status.OK).build();
-	}
-
-	@GET						//JAX-RS Annotation
-	@Path("/")					//JAX-RS Annotation
-	@ApiOperation(				//Swagger Annotation
-			value = "List all items from cache", 
-			response = Student.class,
-			responseContainer = "Iterable")  
-	@ApiResponses(value = {		//Swagger Annotation
-		@ApiResponse(code = 200, message = "Success")
-	})
-	public Response listAll() {
-		
-		LOGGER.info("GET v1/cache");
-		Iterable<Student> students = cacheRepository.findAll();
-		LOGGER.info("Cached items: {}", students==null ? 0 : ((Collection<Student>) students).size());
-		
-		return Response.status(Status.OK).entity(students).build();
 	}
 //
 //	@Bean
