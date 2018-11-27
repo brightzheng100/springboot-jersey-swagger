@@ -20,11 +20,9 @@ import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import bright.zheng.poc.api.model.Student;
-import bright.zheng.poc.api.repository.StudentJdbcRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -41,9 +39,6 @@ public class SessionService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SessionService.class);
 	
 	@Context private HttpServletRequest request;
-	
-	@Autowired
-	StudentJdbcRepository repository;
 
 	@GET							//JAX-RS Annotation
 	@Path("/")					//JAX-RS Annotation
