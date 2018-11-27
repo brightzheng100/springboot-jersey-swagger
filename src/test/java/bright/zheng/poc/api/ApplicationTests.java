@@ -43,7 +43,7 @@ public class ApplicationTests {
      */
     @Test
     public void springroot_info() throws Exception {
-    		get("/info").then().assertThat()
+    		get("/actuator/info").then().assertThat()
     			.body("app.name", equalTo("springboot-jersey-swagger"))
     			.body("build.version", equalTo("1.0.0-SNAPSHOT"));
     }
